@@ -1,4 +1,4 @@
-require "./Vlc/C.cr"
+require "./vlc/libvlc.cr"
 
 module Vlc
   VERSION = "0.1.0"
