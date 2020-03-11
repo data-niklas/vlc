@@ -8,7 +8,7 @@ TODO: Write a description here
 
    ```yaml
    dependencies:
-     Vlc:
+     vlc:
        github: data-niklas/vlc
    ```
 
