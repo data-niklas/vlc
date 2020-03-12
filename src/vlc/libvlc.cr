@@ -6,6 +6,10 @@ lib LibVlc
     alias VlcMediaPlayer = Void*
     alias VlcMedia = Void*
     alias VlcTime = LibC::Int64T
+    alias VlcEventManager = Void*
+    alias VlcEventType = LibC::Int
+    alias VlcCallback = Proc(VlcEventData*, Void*, Nil)
+    alias VlcPicture = Void*
 
     enum VlcState
         NothingSpecial
@@ -70,6 +74,71 @@ lib LibVlc
         Done
     end
 
+    enum VlcEvent
+        MediaMetaChanged = 0
+        MediaSubItemAdded
+        MediaDurationChanged
+        MediaParsedChanged
+        MediaFreed
+        MediaStateChanged
+        MediaSubItemTreeAdded
+        MediaThumbnailGenerated
+
+        MediaPlayerMediaChanged
+        MediaPlayerNothingSpecial
+        MediaPlayerOpening
+        MediaPlayerBuffering
+        MediaPlayerPlaying
+        MediaPlayerPaused
+        MediaPlayerStopped
+        MediaPlayerForward
+        MediaPlayerBackward
+        MediaPlayerEndReached
+        MediaPlayerEncounteredError
+        MediaPlayerTimeChanged
+        MediaPlayerPositionChanged
+        MediaPlayerSeekableChanged
+        MediaPlayerPausableChanged
+        MediaPlayerTitleChanged
+        MediaPlayerSnapshotTaken
+        MediaPlayerLengthChanged
+        MediaPlayerVout
+        MediaPlayerScrambledChanged
+        MediaPlayerESAdded
+        MediaPlayerESDeleted
+        MediaPlayerESSelected
+        MediaPlayerCorked
+        MediaPlayerUncorked
+        MediaPlayerMuted
+        MediaPlayerUnmuted
+        MediaPlayerAudioVolume
+        MediaPlayerAudioDevice
+        MediaPlayerChapterChanged
+
+        MediaListItemAdded = 0x200
+        MediaListWillAddItem
+        MediaListWillDeleteItem
+        MediaListEndReached
+
+        MediaListViewItemAdded = 0x300
+        MediaListViewWillAddItem
+        MediaListViewItemDeleted
+        MediaListViewWillDeleteItem
+
+        MediaListPlayerPlayed = 0x400
+        MediaListPlayerNextItemSet
+        MediaListPlayerStopped
+
+        RendererDiscovererItemAdded = 0x502
+        RendererDiscovererItemDeleted
+    end
+
+    enum VlcPictureType
+        Argb
+        Png
+        Jpg
+    end
+
 
     struct VlcMediaStats
         i_read_bytes : LibC::Int
@@ -86,17 +155,47 @@ lib LibVlc
         i_lost_abuffers : LibC::Int
     end
 
+    struct VlcEventData
+        type : VlcEvent
+        p_obj : Void*
+        new_state : VlcState    # Vars can be read, depending on the event type
+        meta_type : VlcMeta
+        new_child : VlcMedia*
+        new_duration : LibC::Int64T
+        md : VlcMedia*
+        p_thumbnail : VlcPicture*
+        item : VlcMedia*
+        new_status : LibC::Int
+        new_cache : LibC::Float
+        new_chapter : LibC::Int
+        new_position : LibC::Float
+        new_time : VlcTime
+        new_title : LibC::Int
+        new_seekable : LibC::Int
+        new_pausable : LibC::Int
+        new_scrambled : LibC::Int
+        new_count : LibC::Int
+        index : LibC::Int
+        psz_filename : Char*
+        new_length : VlcTime
+        new_media : VlcMedia*
+        i_type : VlcTrackType
+        i_id : LibC::Int
+        volume : LibC::Float
+        device : Char*
+    end
+
     # Main and instance
     fun new_instance = libvlc_new(arguments_count: LibC::Int, arguments: LibC::Char*) : VlcInstance*
-    fun free = libvlc_free(Void*) : Void
-    fun release_instance = libvlc_release(instance: VlcInstance*) : Void
+    fun free = libvlc_free(Void*)
+    fun release_instance = libvlc_release(instance: VlcInstance*)
     fun version = libvlc_get_version(): LibC::Char*
     fun compiler_version = libvlc_get_compiler(): LibC::Char*
 
     # Media
     fun new_media_from_path = libvlc_media_new_path(instance : VlcInstance*, path : LibC::Char*) : VlcMedia*
     fun new_media_from_location = libvlc_media_new_location(instance : VlcInstance*, path : LibC::Char*) : VlcMedia*
-    fun release_media = libvlc_media_release(media : VlcMedia*) : Void
+    fun release_media = libvlc_media_release(media : VlcMedia*)
     fun get_media_resource_locator = libvlc_media_get_mrl(media : VlcMedia*) : LibC::Char*
     fun get_media_meta = libvlc_media_get_meta(media : VlcMedia*, meta : VlcMeta) : LibC::Char*
     fun get_media_duration = libvlc_media_get_duration(media : VlcMedia*) : VlcTime
@@ -108,10 +207,15 @@ lib LibVlc
     # Media player
     fun new_media_player = libvlc_media_player_new(instance : VlcInstance*) : VlcMediaPlayer*
     fun new_media_player_from_media = libvlc_media_player_new_from_media(media : VlcMedia*) : VlcMediaPlayer*
-    fun release_media_player = libvlc_media_player_release(media_player : VlcMediaPlayer*) : Void
+    fun release_media_player = libvlc_media_player_release(media_player : VlcMediaPlayer*)
     fun set_media_player_media = libvlc_media_player_set_media(media_player : VlcMediaPlayer*, media : VlcMedia*)
+    fun can_media_player_pause? = libvlc_media_player_can_pause(media_player : VlcMediaPlayer*) : Bool
 
-    fun play = libvlc_media_player_play(player : VlcMediaPlayer*) : Void
+    fun get_media_event_manager = libvlc_media_event_manager(media : VlcMedia*) : VlcEventManager*
+    fun attach_event = libvlc_event_attach(event_manager : VlcEventManager*, event_type : VlcEventType, callback: VlcCallback, user_data : Void*)
+
+    fun play = libvlc_media_player_play(player : VlcMediaPlayer*)
+    fun pause = libvlc_media_player_pause(player : VlcMediaPlayer*)
 
 end
 
