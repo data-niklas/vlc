@@ -464,10 +464,10 @@ lib LibVlc
     fun stop_media_player_async = libvlc_media_player_stop_async(media_player : MediaPlayer*) : LibC::Int
 
 
-    fun set_media_player_xwindow = libvlc_media_player_set_xwindow(mp : MediaPlayer*, id : LibC::UInt32)
+    fun set_media_player_xwindow = libvlc_media_player_set_xwindow(mp : MediaPlayer*, id : LibC::UInt32T)
     fun set_media_player_hwnd = libvlc_media_player_set_hwnd (mp : MediaPlayer*, hwnd : Void*)
     fun set_media_player_nsobject = libvlc_media_player_set_nsobject (mp : MediaPlayer*, nsobject : Void*)
-    fun get_media_player_xwindow = libvlc_media_player_get_xwindow(mp : MediaPlayer*) : LibC::UInt32
+    fun get_media_player_xwindow = libvlc_media_player_get_xwindow(mp : MediaPlayer*) : LibC::UInt32T
     fun get_media_player_hwnd = libvlc_media_player_get_hwnd (mp : MediaPlayer*) : Void*
     fun get_media_player_nsobject = libvlc_media_player_get_nsobject (mp : MediaPlayer*) : Void*
 
