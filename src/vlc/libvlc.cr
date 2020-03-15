@@ -100,9 +100,8 @@ lib LibVlc
         MediaFreed
         MediaStateChanged
         MediaSubItemTreeAdded
-        MediaThumbnailGenerated
 
-        MediaPlayerMediaChanged
+        MediaPlayerMediaChanged=0x100
         MediaPlayerNothingSpecial
         MediaPlayerOpening
         MediaPlayerBuffering
@@ -135,6 +134,7 @@ lib LibVlc
 
         MediaListItemAdded = 0x200
         MediaListWillAddItem
+        MediaListItemDeleted 
         MediaListWillDeleteItem
         MediaListEndReached
 
@@ -147,7 +147,10 @@ lib LibVlc
         MediaListPlayerNextItemSet
         MediaListPlayerStopped
 
-        RendererDiscovererItemAdded = 0x502
+        MediaDiscovererStarted=0x500
+        MediaDiscovererEnded
+
+        RendererDiscovererItemAdded
         RendererDiscovererItemDeleted
     end
 
