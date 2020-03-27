@@ -440,7 +440,7 @@ lib LibVlc
     fun set_media_list_player_pause = libvlc_media_list_player_set_pause(mlp : MediaListPlayer*, pause : LibC::Int)#0 : Play/Resume, Everything other: Pause
     fun set_media_list_player_media_list = libvlc_media_list_player_set_media_list(mlp : MediaListPlayer*, list : MediaList*)
     fun set_media_list_player_media_player = libvlc_media_list_player_set_media_player(mlp : MediaListPlayer*, player : MediaPlayer*)
-    fun stop_media_list_player_async = libvlc_media_list_player_stop_async(media_list_player : MediaListPlayer*) : LibC::Int
+    fun stop_media_list_player = libvlc_media_list_player_stop(media_list_player : MediaListPlayer*)
     fun set_media_list_player_playback_mode = libvlc_media_list_player_set_playback_mode(media_list_player : MediaListPlayer*, mode : PlaybackMode)
 
 
@@ -464,7 +464,7 @@ lib LibVlc
     fun set_media_player_position = libvlc_media_player_set_position(media_player : MediaPlayer*, position : LibC::Float, fast_seeking : Bool) : LibC::Int
     fun set_media_player_rate = libvlc_media_player_set_rate(media_player : MediaPlayer*, rate : LibC::Float) : LibC::Int
     fun set_media_player_time = libvlc_media_player_set_time(media_player : MediaPlayer*, time : Time, fast_seeking : Bool) : LibC::Int
-    fun stop_media_player_async = libvlc_media_player_stop_async(media_player : MediaPlayer*) : LibC::Int
+    fun stop_media_player = libvlc_media_player_stop(media_player : MediaPlayer*)
 
 
     fun set_media_player_xwindow = libvlc_media_player_set_xwindow(mp : MediaPlayer*, id : LibC::UInt32T)
