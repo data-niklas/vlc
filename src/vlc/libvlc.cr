@@ -18,11 +18,10 @@ lib LibVlc
     alias AudioDrainCallback = Proc(Void*, Nil)
     alias AudioCleanupCallback = Proc(Void*, Nil)
     alias AudioVolumeCallback = Proc(Void*, LibC::Float, Bool, Nil)
-    alias AudioSetupCallback = Proc(Void**, Char*, LibC::UInt, LibC::UInt, Nil)
+    alias AudioSetupCallback = Proc(Void**, LibC::Char*, LibC::UInt, LibC::UInt, Nil)
     alias Picture = Void*
     alias Equalizer = Void*
     alias MediaThumbnailRequest = Void*
-    alias Char = UInt8
 
     enum State
         NothingSpecial
@@ -228,35 +227,35 @@ lib LibVlc
         new_scrambled : LibC::Int
         new_count : LibC::Int
         index : LibC::Int
-        psz_filename : Char*
+        psz_filename : LibC::Char*
         new_length : Time
         new_media : Media*
         i_type : TrackType
         i_id : LibC::Int
         volume : LibC::Float
-        device : Char*
+        device : LibC::Char*
     end
 
     struct AudioOutput
-        psz_name : Char*
-        psz_description : Char*
+        psz_name : LibC::Char*
+        psz_description : LibC::Char*
         p_next : AudioOutput*
     end
 
     struct TrackDescription
         i_id : LibC::Int
-        psz_name : Char*
+        psz_name : LibC::Char*
         p_next : TrackDescription*
     end
 
     struct OutputDevice
-        psz_device : Char*
-        psz_description : Char*
+        psz_device : LibC::Char*
+        psz_description : LibC::Char*
         p_next : OutputDevice*
     end
 
     struct MediaSlave
-        psz_uri : Char*
+        psz_uri : LibC::Char*
         i_type : SlaveType
         i_priority : LibC::UInt
     end
@@ -267,7 +266,7 @@ lib LibVlc
     end
 
     struct SubtitleTrack
-        psz_encoding : Char*
+        psz_encoding : LibC::Char*
     end
 
     union TrackUnion
@@ -278,8 +277,8 @@ lib LibVlc
     struct MediaTrack
         i_codec : LibC::UInt32T
         i_bitrage : LibC::UInt
-        psz_language : Char*
-        psz_description : Char*
+        psz_language : LibC::Char*
+        psz_description : LibC::Char*
         i_original_fourcc : LibC::UInt32T
         i_id : LibC::Int
         i_profile : LibC::Int
@@ -298,7 +297,7 @@ lib LibVlc
     
     fun get_audio_outputs = libvlc_audio_output_list_get(instance : Instance*) : AudioOutput*
     fun free_audio_outputs = libvlc_audio_output_list_release(outputs : AudioOutput*) 
-    fun set_audio_output = libvlc_audio_output_set(media_player : MediaPlayer*, psz_name : Char*) : LibC::Int
+    fun set_audio_output = libvlc_audio_output_set(media_player : MediaPlayer*, psz_name : LibC::Char*) : LibC::Int
     
     
     fun get_audio_channel = libvlc_audio_get_channel(media_player : MediaPlayer*) : LibC::Int
@@ -308,10 +307,10 @@ lib LibVlc
     fun get_audio_track_count = libvlc_audio_get_track_count(media_player : MediaPlayer*) : LibC::Int
     fun get_audio_volume = libvlc_audio_get_volume(media_player : MediaPlayer*) : LibC::Int
     fun enum_audio_output_devices = libvlc_audio_output_device_enum(media_player : MediaPlayer*) : OutputDevice*
-    fun get_audio_output_device = libvlc_audio_output_device_get(media_player : MediaPlayer*) : Char*
-    fun get_audio_output_devices = libvlc_audio_output_device_list_get(instance : Instance*, audio_out : Char*) : OutputDevice*
+    fun get_audio_output_device = libvlc_audio_output_device_get(media_player : MediaPlayer*) : LibC::Char*
+    fun get_audio_output_devices = libvlc_audio_output_device_list_get(instance : Instance*, audio_out : LibC::Char*) : OutputDevice*
     fun free_audio_output_device = libvlc_audio_output_device_list_release(device : OutputDevice*)
-    fun set_audio_output_device = libvlc_audio_output_device_set(media_player : MediaPlayer*, audio_output_module : Char*, device_id : Char*)
+    fun set_audio_output_device = libvlc_audio_output_device_set(media_player : MediaPlayer*, audio_output_module : LibC::Char*, device_id : LibC::Char*)
 
     fun get_audio_track_description = libvlc_audio_get_track_description(media_player : MediaPlayer*) : TrackDescription*
     fun free_audio_track_description = libvlc_track_description_list_release(description : TrackDescription*)
@@ -327,7 +326,7 @@ lib LibVlc
     fun get_equalizer_band_frequency = libvlc_audio_equalizer_get_band_frequency(index : LibC::Int) : LibC::Float
     fun get_equalizer_preamp = libvlc_audio_equalizer_get_preamp(equalizer : Equalizer*) : LibC::Float
     fun get_equalizer_preset_count = libvlc_audio_equalizer_get_preset_count() : LibC::Int
-    fun get_equalizer_preset_name = libvlc_audio_equalizer_get_preset_name(index : LibC::Int) : Char*
+    fun get_equalizer_preset_name = libvlc_audio_equalizer_get_preset_name(index : LibC::Int) : LibC::Char*
     
     fun set_equalizer_amp_at_index = libvlc_audio_equalizer_set_amp_at_index(equalizer : Equalizer*, amp : LibC::Float, band : LibC::Int) : LibC::Int # Float needs to be between -20 and 20 (inclusive)
     fun set_equalizer_preamp = libvlc_audio_equalizer_set_preamp(equalizer : Equalizer*, preamp : LibC::Float) : LibC::Int
@@ -349,7 +348,7 @@ lib LibVlc
     fun free_media_tracks = libvlc_media_tracks_release(tracks : MediaTrack**, count : LibC::UInt)
     fun get_media_type = libvlc_media_get_type(media : Media*) : MediaType
     fun get_media_state = libvlc_media_get_state(media : Media*) : State
-    fun get_media_codec_description = libvlc_media_get_codec_description(track_type : TrackType, codec : LibC::UInt32T) : Char*
+    fun get_media_codec_description = libvlc_media_get_codec_description(track_type : TrackType, codec : LibC::UInt32T) : LibC::Char*
     fun get_media_statistics = libvlc_media_get_stats(media : Media*, stats : MediaStats*) : Bool # The Vlc_Media_Stats struct might be changed by the vlc lib (if true was returned)
     fun get_media_parsed_status = libvlc_media_get_parsed_status(media : Media*) : MediaParsedStatus
     fun get_media_subitems = libvlc_media_subitems(media : Media*) : MediaList*
@@ -359,17 +358,17 @@ lib LibVlc
     fun destroy_media_thumbnail_request = libvlc_media_thumbnail_request_destroy(request : MediaThumbnailRequest*)
 
     fun set_media_user_data = libvlc_media_set_user_data(media : Media*, user_data : Void*)
-    fun add_media_slave = libvlc_media_slaves_add(media : Media*, slave_type : SlaveType, priority : LibC::UInt, uri : Char*) : LibC::Int
+    fun add_media_slave = libvlc_media_slaves_add(media : Media*, slave_type : SlaveType, priority : LibC::UInt, uri : LibC::Char*) : LibC::Int
     fun clear_media_slaves = libvlc_media_slaves_clear(media : Media*)
     fun get_media_slaves = libvlc_media_slaves_get(media : Media*, slaves : MediaSlave***) : LibC::UInt
     fun free_media_slaves = libvlc_media_slaves_release(slaves : MediaSlave**, count : LibC::UInt)
 
     fun get_media_meta = libvlc_media_get_meta(media : Media*, meta : Meta) : LibC::Char*
-    fun set_media_meta = libvlc_media_set_meta(media : Media*, meta : Meta, value : Char*)
+    fun set_media_meta = libvlc_media_set_meta(media : Media*, meta : Meta, value : LibC::Char*)
     fun save_media_meta = libvlc_media_save_meta(media : Media*) : Bool
 
-    fun add_media_option = libvlc_media_add_option(media : Media*, option : Char*)
-    fun add_media_option_flag = libvlc_media_add_option_flag(media : Media*, option : Char*, flags : LibC::Int)
+    fun add_media_option = libvlc_media_add_option(media : Media*, option : LibC::Char*)
+    fun add_media_option_flag = libvlc_media_add_option_flag(media : Media*, option : LibC::Char*, flags : LibC::Int)
     fun get_media_user_data = libvlc_media_get_user_data(media : Media*) : Void*
     fun stop_media_parse = libvlc_media_parse_stop(media : Media*)
     fun parse_media_with_options = libvlc_media_parse_with_options(media : Media*, options : MediaParseFlag, timeout : LibC::Int) : LibC::Int
@@ -407,7 +406,7 @@ lib LibVlc
     fun set_audio_mute = libvlc_audio_set_mute(media_player : MediaPlayer*, status : LibC::Int) # Not reliable!
     fun set_audio_track = libvlc_audio_set_track(media_player : MediaPlayer*, track : LibC::Int) : LibC::Int
     fun set_audio_volume = libvlc_audio_set_volume(media_player : MediaPlayer*, volume : LibC::Int) : LibC::Int#volume in percent --> between 0 and 100 (inclusive)
-    fun set_audio_format = libvlc_audio_set_format(media_player : MediaPlayer*, format : Char*, rate : LibC::UInt, channels : LibC::UInt)
+    fun set_audio_format = libvlc_audio_set_format(media_player : MediaPlayer*, format : LibC::Char*, rate : LibC::UInt, channels : LibC::UInt)
 
     fun set_media_player_media = libvlc_media_player_set_media(media_player : MediaPlayer*, media : Media*)
     fun get_media_player_media = libvlc_media_player_get_media(media_player : MediaPlayer*) : Media*
@@ -425,7 +424,7 @@ lib LibVlc
     fun get_media_player_title_count = libvlc_media_player_get_title_count(media_player : MediaPlayer*) : LibC::Int
     fun get_media_player_vout_count = libvlc_media_player_has_vout(media_player : MediaPlayer*) : LibC::Int
 
-    fun add_media_player_slave = libvlc_media_player_add_slave(media_player : MediaPlayer*, slave_type : SlaveType, uri : Char*, select : Bool) : LibC::Int
+    fun add_media_player_slave = libvlc_media_player_add_slave(media_player : MediaPlayer*, slave_type : SlaveType, uri : LibC::Char*, select : Bool) : LibC::Int
 
     #MediaListPlayer
     fun new_media_list_player = libvlc_media_list_player_new(instance : Instance*) : MediaListPlayer*
