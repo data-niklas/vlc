@@ -22,6 +22,7 @@ lib LibVlc
     alias Picture = Void*
     alias Equalizer = Void*
     alias MediaThumbnailRequest = Void*
+    alias Char = UInt8
 
     enum State
         NothingSpecial
