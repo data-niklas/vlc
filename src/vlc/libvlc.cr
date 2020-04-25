@@ -209,6 +209,10 @@ lib LibVlc
     struct EventData
         type : Event
         p_obj : Void*
+        u : EventUnion
+    end
+
+    union EventUnion
         new_state : State    # Vars can be read, depending on the event type
         meta_type : Meta
         new_child : Media*
@@ -233,7 +237,7 @@ lib LibVlc
         i_type : TrackType
         i_id : LibC::Int
         volume : LibC::Float
-        device : LibC::Char*
+        device : LibC::Char*    
     end
 
     struct AudioOutput
