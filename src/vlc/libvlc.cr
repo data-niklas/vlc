@@ -436,7 +436,7 @@ lib LibVlc
     fun retain_media_list_player = libvlc_media_list_player_retain(mlp : MediaListPlayer*)
 
     fun next_media_list_player = libvlc_media_list_player_next(mlp : MediaListPlayer*) : LibC::Int
-    fun previous_media_player_list = libvlc_media_list_player_previous(mlp : MediaListPlayer*) : LibC::Int
+    fun previous_media_list_player = libvlc_media_list_player_previous(mlp : MediaListPlayer*) : LibC::Int
     fun pause_media_list_player = libvlc_media_list_player_pause(mlp : MediaListPlayer*)
     fun play_media_list_player = libvlc_media_list_player_play(mlp : MediaListPlayer*)
     fun play_media_list_player_item = libvlc_media_list_player_play_item(mlp : MediaListPlayer*, media : Media*) : LibC::Int
