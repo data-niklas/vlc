@@ -440,7 +440,7 @@ lib LibVlc
     fun pause_media_list_player = libvlc_media_list_player_pause(mlp : MediaListPlayer*)
     fun play_media_list_player = libvlc_media_list_player_play(mlp : MediaListPlayer*)
     fun play_media_list_player_item = libvlc_media_list_player_play_item(mlp : MediaListPlayer*, media : Media*) : LibC::Int
-    fun play_media_list_player_index = libvlc_media_list_player_play_index(mlp : MediaListPlayer*, index : LibC::Int) : LibC::Int
+    fun play_media_list_player_index = libvlc_media_list_player_play_item_at_index(mlp : MediaListPlayer*, index : LibC::Int) : LibC::Int
     fun set_media_list_player_pause = libvlc_media_list_player_set_pause(mlp : MediaListPlayer*, pause : LibC::Int)#0 : Play/Resume, Everything other: Pause
     fun set_media_list_player_media_list = libvlc_media_list_player_set_media_list(mlp : MediaListPlayer*, list : MediaList*)
     fun set_media_list_player_media_player = libvlc_media_list_player_set_media_player(mlp : MediaListPlayer*, player : MediaPlayer*)
